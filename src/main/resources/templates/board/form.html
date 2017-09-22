@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="/includes/header"></div>
+<body>
+	<div class="container" style="padding-top: 100px;">
+		<form action="" class="boardSubmit" method="post">
+			<table class="table table-bordered">
+				<tr>
+					<th>글 제목</th>
+					<td><input type="text" name="title" class="form-control" /></td>
+				</tr>
+				<tr>
+					<th>글 내용</th>
+					<td><textarea class="form-control" id="summernote"
+							name="content" placeholder="content" maxlength="140" rows="7"></textarea>
+					</td>
+				</tr>
+			</table>
+			<button class="btn btn-primary">작성하기</button>
+		</form>
+
+	</div>
+	<div th:replace="/includes/footer"></div>
+</body>
+</html>
+<script>
+
+$(document).ready(function() {
+	
+	var sendFile = function (file, el) {
+	      var form_data = new FormData();
+	      form_data.append('file', file);
+	      $.ajax({
+	        data: form_data,
+	        type: "POST",
+	        url: '/file/image',
+	        cache: false,
+	        async : false,
+	        contentType: false,
+	        enctype: 'multipart/form-data',
+	        processData: false,
+	        success: function(url) {
+	        		console.log("/uploads/" + url);
+	        		var filePath = "/uploads/" + url;
+	        		$('#summernote').summernote('insertImage', "/uploads/cdc4501d-fc08-4331-aa01-8a5f9b1e30c9image.png");
+	            $('#imageBoard > ul').append('<li><img src="'+ filePath +'" width="480" height="auto"/></li>');
+	        }
+	      });
+	    }
+	$('#summernote').summernote({
+        height: 300,
+        minHeight: null,
+        maxHeight: null,
+        focus: true,
+        callbacks: {
+          onImageUpload: function(files, editor, welEditable) {
+            for (var i = files.length - 1; i >= 0; i--) {
+              sendFile(files[i], this);
+            }
+          }
+        }
+      });
+
+});
+</script>
