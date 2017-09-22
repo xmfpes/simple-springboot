@@ -35,15 +35,15 @@ $(document).ready(function() {
 	        type: "POST",
 	        url: '/file/image',
 	        cache: false,
-	        async : false,
 	        contentType: false,
 	        enctype: 'multipart/form-data',
 	        processData: false,
 	        success: function(url) {
-	        		console.log("/uploads/" + url);
-	        		var filePath = "/uploads/" + url;
-	        		$('#summernote').summernote('insertImage', "/uploads/cdc4501d-fc08-4331-aa01-8a5f9b1e30c9image.png");
-	            $('#imageBoard > ul').append('<li><img src="'+ filePath +'" width="480" height="auto"/></li>');
+	        		var filePath = "https://s3.ap-northeast-2.amazonaws.com/kyubucket/" + url;
+	        		console.log(filePath);
+	        		$('#summernote').summernote('insertImage', filePath);
+		        $('#imageBoard > ul').append('<li><img src="'+ filePath +'" width="480" height="auto"/></li>');
+	           	
 	        }
 	      });
 	    }
